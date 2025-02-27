@@ -21,8 +21,8 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 0
     }
   }, {
-    tableName: 'Bakery',  // ✅ MySQL 테이블 이름 강제 설정
-    freezeTableName: true  // ✅ Sequelize의 자동 복수형 변환 방지
+    tableName: 'Bakery',  // MySQL 테이블 이름 강제 설정
+    freezeTableName: true  // Sequelize의 자동 복수형 변환 방지
   });
 
   return Bakery;
