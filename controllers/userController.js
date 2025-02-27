@@ -3,6 +3,40 @@ const User = db.User;
 const Bakery = db.Bakery;
 const Favorite = db.Favorite;
 
+// ✅ 1️⃣ [카카오 로그인] OAuth 토큰 받아서 사용자 정보 저장
+exports.kakaoLogin = async (req, res) => {
+  try {
+    const { access_token } = req.body;
+    if (!access_token) return res.status(400).json({ message: "access_token이 필요합니다." });
+
+    // 카카오 API에서 사용자 정보 가져오기
+    const kakaoResponse = await axios.get("https://kapi.kakao.com/v2/user/me", {
+      headers: { Authorization: `Bearer ${access_token}` }
+    });
+
+    const kakaoData = kakaoResponse.data;
+    const kakaoId = kakaoData.id;
+    const username = kakaoData.kakao_account.profile.nickname;
+    const email = kakaoData.kakao_account.email || null;
+    const profileImage = kakaoData.kakao_account.profile.profile_image_url;
+
+    // DB에 사용자 정보 저장 (없으면 생성)
+    const [user, created] = await User.findOrCreate({
+      where: { kakao_id: kakaoId },
+      defaults: { username, email, profile_image: profileImage }
+    });
+
+    return res.json({
+      message: created ? "✅ 신규 사용자 등록 완료!" : "✅ 기존 사용자 로그인 완료!",
+      user
+    });
+
+  } catch (err) {
+    console.error("❌ 카카오 로그인 오류:", err);
+    return res.status(500).json({ message: "카카오 로그인 중 오류 발생" });
+  }
+};
+
 exports.getUserProfile = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.userId);
