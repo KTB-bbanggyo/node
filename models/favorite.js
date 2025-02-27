@@ -11,8 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     tableName: 'FavoriteBakery',
-    freezeTableName: true,
-    timestamps: false
+    freezeTableName: true
   });
 
   return FavoriteBackery;
