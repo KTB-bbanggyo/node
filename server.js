@@ -20,7 +20,7 @@ const userRoutes = require('./routes/userRoutes');
 
 // Express 앱 생성
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 // 미들웨어 등록
 app.use(bodyParser.json());
