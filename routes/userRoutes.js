@@ -17,4 +17,7 @@ router.post('/:userId/preferences', userController.collectPreference);
 // 사용자 선호도 업데이트
 router.put('/:userId/preferences', userController.updatePreference);
 
+// AI로 데이터 전송 API 추가
+router.post('/:userId/send-to-ai', userController.sendToAI);
+
 module.exports = router;
