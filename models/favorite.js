@@ -1,27 +1,19 @@
+// models/FavoriteBackery.js
 module.exports = (sequelize, DataTypes) => {
-    const Favorite = sequelize.define('Favorite', {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-      },
-      userId: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
-      bakeryId: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      }
-    }, {
-      indexes: [
-        {
-          unique: true,
-          fields: ['userId', 'bakeryId']
-        }
-      ]
-    });
-  
-    return Favorite;
-  };
-  
+  const FavoriteBackery = sequelize.define('FavoriteBackery', {
+    user_id: {
+      type: DataTypes.BIGINT,
+      primaryKey: true
+    },
+    bakery_id: {
+      type: DataTypes.BIGINT,
+      primaryKey: true
+    }
+  }, {
+    tableName: 'FavoriteBackery',
+    freezeTableName: true,
+    timestamps: false
+  });
+
+  return FavoriteBackery;
+};

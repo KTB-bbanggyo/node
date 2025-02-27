@@ -1,28 +1,20 @@
+// models/Bakery.js
 module.exports = (sequelize, DataTypes) => {
   const Bakery = sequelize.define('Bakery', {
-    id: {
-      type: DataTypes.INTEGER,
+    bakery_id: {
+      type: DataTypes.BIGINT,
       primaryKey: true,
       autoIncrement: true
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    address: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    description: {
-      type: DataTypes.TEXT
-    },
-    rating: {
-      type: DataTypes.FLOAT,
-      defaultValue: 0
-    }
+    name: { type: DataTypes.STRING, allowNull: false },
+    address: { type: DataTypes.STRING, allowNull: false },
+    phone: { type: DataTypes.STRING },
+    rating: { type: DataTypes.DECIMAL(3,2), defaultValue: 0 },
+    keywords: { type: DataTypes.JSON }
   }, {
-    tableName: 'Bakery',  // MySQL 테이블 이름 강제 설정
-    freezeTableName: true  // Sequelize의 자동 복수형 변환 방지
+    tableName: 'Bakery',
+    freezeTableName: true,
+    timestamps: false
   });
 
   return Bakery;

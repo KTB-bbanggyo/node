@@ -1,17 +1,15 @@
+// routes/bakery.js
 const express = require('express');
 const router = express.Router();
 const bakeryController = require('../controllers/bakeryController');
 
-// 빵집 전체 목록 조회
-router.get('/', bakeryController.getAllBakeries);
+// (A) 빵집 리스트(JSON) 받아서 즉시 반환 (DB 저장 X)
+router.post('/passthrough', bakeryController.passBakeries);
 
-// 특정 빵집 정보 조회
-router.get('/:id', bakeryController.getBakeryById);
+// (B) 빵집 찜 등록
+router.post('/favorite', bakeryController.addFavoriteBakery);
 
-// 빵집 정보 저장
-router.post('/', bakeryController.addBakery);
-
-// 저장한 빵집 정보 조회
-router.get('/saved', bakeryController.getSavedBakeries);
+// (C) 찜 목록 조회
+router.get('/favorite/:userId', bakeryController.getUserFavoriteBakeries);
 
 module.exports = router;

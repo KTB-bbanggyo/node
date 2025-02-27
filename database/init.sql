@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS Users (
     llm_thread_id  VARCHAR(100) -- LLM 대화방 ID
 );
 
+
 -- 빵집 정보 
 CREATE TABLE IF NOT EXISTS Bakery (
     bakery_id     BIGINT AUTO_INCREMENT PRIMARY KEY, 
