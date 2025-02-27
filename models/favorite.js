@@ -1,6 +1,6 @@
 // models/FavoriteBackery.js
 module.exports = (sequelize, DataTypes) => {
-  const FavoriteBackery = sequelize.define('FavoriteBackery', {
+  const FavoriteBackery = sequelize.define('FavoriteBakery', {
     user_id: {
       type: DataTypes.BIGINT,
       primaryKey: true
@@ -10,9 +10,8 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true
     }
   }, {
-    tableName: 'FavoriteBackery',
-    freezeTableName: true,
-    timestamps: false
+    tableName: 'FavoriteBakery',
+    freezeTableName: true
   });
 
   return FavoriteBackery;

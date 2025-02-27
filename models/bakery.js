@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
     rating: DataTypes.FLOAT,
   }, {
     tableName: 'Bakery',  // Sequelize가 자동으로 복수형으로 만들지 않도록 지정
-    timestamps: true,  // createdAt, updatedAt 자동 추가
   });
 
   return Bakery;

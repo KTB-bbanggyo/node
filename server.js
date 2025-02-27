@@ -37,7 +37,13 @@ app.use(passport.session());
 initializeDatabase()
   .then(() => {
     // Sequelize 모델 스키마 동기화
-    return sequelize.sync();
+    return sequelize.sync({ alter: true })
+    .then(() => {
+      console.log("✅ 데이터베이스 테이블 동기화 완료");
+    })
+    .catch((err) => {
+      console.error("❌ Sequelize 동기화 오류:", err);
+    });
   })
   .then(() => {
     console.log('Database initialized and Sequelize models synced.');
@@ -70,7 +76,7 @@ app.post('/api/login', async (req, res) => {
     );
     if (rows.length > 0) {
       const user = rows[0];
-      res.json({ user_id: user.user_id });
+      res.json({ user_id: user.id });
     } else {
       res.status(401).json({ error: 'Invalid username or password' });
     }
