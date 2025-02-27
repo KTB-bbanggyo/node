@@ -14,14 +14,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true
       },
-      profile: {
-        type: DataTypes.TEXT
-      },
-      // 사용자 선호도 정보 (JSON)
-      preferences: {
-        type: DataTypes.JSON,
-        defaultValue: {}
-      }
     });
   
     return User;
