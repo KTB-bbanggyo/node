@@ -1,4 +1,6 @@
+const axios = require('axios');
 const db = require('../models');
+const { QueryTypes } = require('sequelize');
 const User = db.User;
 const Bakery = db.Bakery;
 const Favorite = db.Favorite;
@@ -90,6 +92,62 @@ exports.updatePreference = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: '선호도 업데이트 중 오류 발생' });
+  }
+};
+
+exports.processPrompt = async (req, res) => {
+  try {
+      const { userId, prompt, favorites } = req.body;
+
+      // 필수 입력값 확인
+      if (!userId || !prompt) {
+          return res.status(400).json({ 
+              message: 'userId와 prompt를 입력해야 합니다.', 
+              error: 'Bad Request' 
+          });
+      }
+
+      // 찜한 빵집이 있으면 DB에서 해당 이름이 존재하는지 확인
+      let validFavorites = [];
+
+      if (favorites && Array.isArray(favorites)) {
+          const query = `
+              SELECT name FROM bakeries WHERE name IN (:favorites)
+          `;
+          const result = await db.sequelize.query(query, {
+              replacements: { favorites },
+              type: QueryTypes.SELECT
+          });
+
+          validFavorites = result.map(row => row.name);
+      }
+
+      // 유효한 빵집이 없으면 404 반환
+      if (favorites && favorites.length > 0 && validFavorites.length === 0) {
+          return res.status(404).json({
+              message: '찜한 빵집이 데이터베이스에 없습니다.',
+              error: 'Not Found'
+          });
+      }
+
+      // AI API에 보낼 데이터 형식 맞추기
+      const formattedPrompt = validFavorites.length > 0
+      ? `${prompt}\n${validFavorites.join('\n')}`
+      : `${prompt}\nnull`;
+
+    return res.status(200).json({ 
+        message: '프롬프트가 성공적으로 생성되었습니다.',
+        formattedPrompt: formattedPrompt
+    });
+
+    
+
+  } catch (dbError) {
+      console.error('DB 처리 중 오류 발생:', dbError.message);
+      return res.status(500).json({ 
+          message: '서버 내부 오류 - 데이터베이스 처리 실패',
+          error: dbError.message 
+      });
   }
 };
 

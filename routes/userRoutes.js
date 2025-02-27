@@ -18,6 +18,9 @@ router.post('/:userId/preferences', userController.collectPreference);
 router.put('/:userId/preferences', userController.updatePreference);
 
 // AI로 데이터 전송 API 추가
-router.post('/:userId/send-to-ai', userController.sendToAI);
+router.post('/:userId/ai', userController.sendToAI);
+
+// 프롬프트를 AI API로 전달하는 API
+router.post('/api/prompt', userController.processPrompt);
 
 module.exports = router;
