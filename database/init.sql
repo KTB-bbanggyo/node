@@ -21,9 +21,7 @@ CREATE TABLE IF NOT EXISTS Users (
 CREATE TABLE IF NOT EXISTS Bakery (
     bakery_id     BIGINT AUTO_INCREMENT PRIMARY KEY, 
     name          VARCHAR(255) NOT NULL, 
-    address       VARCHAR(255) NOT NULL, 
-    latitude      DECIMAL(10,7) NOT NULL, 
-    longitude     DECIMAL(10,7) NOT NULL, 
+    address       VARCHAR(255) NOT NULL,  
     phone         VARCHAR(20), 
     rating        DECIMAL(3,2) DEFAULT 0, 
     opening_hours TEXT, 
