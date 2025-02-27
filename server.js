@@ -6,6 +6,7 @@ const session = require('express-session');
 const mysql = require('mysql2/promise');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const axios = require('axios'); // AI 서버 요청을 위해 추가
 
 // 데이터베이스 초기화 (DB 생성)
 const { initializeDatabase } = require('./database/db');
@@ -36,7 +37,6 @@ app.use(passport.session());
 // DB 초기화 (없으면 DB 생성)
 initializeDatabase()
   .then(() => {
-    // Sequelize 모델 스키마 동기화
     return sequelize.sync();
   })
   .then(() => {
@@ -83,6 +83,36 @@ app.post('/api/login', async (req, res) => {
 // -- 신규 프로젝트 라우트
 app.use('/api/bakeries', bakeryRoutes);
 app.use('/api/users', userRoutes);
+
+// -- AI와 상호작용하는 API 추가
+app.post('/api/send-to-ai', async (req, res) => {
+    try {
+        const { userPrompt, favoriteBakeries } = req.body;
+
+        // 요청 데이터 검증
+        if (!userPrompt || !Array.isArray(favoriteBakeries) || favoriteBakeries.length !== 3) {
+            return res.status(400).json({ error: 'Invalid input data' });
+        }
+
+        // 줄바꿈을 포함한 하나의 문자열로 변환
+        const formattedData = `${userPrompt}\n${favoriteBakeries.join('\n')}`;
+
+        // AI 서버 URL (환경 변수에서 가져옴)
+        const aiServerUrl = process.env.AI_SERVER_URL;
+        if (!aiServerUrl) {
+            return res.status(500).json({ error: 'AI server URL is not configured' });
+        }
+
+        // AI 서버로 데이터 전송
+        const aiResponse = await axios.post(aiServerUrl, { data: formattedData });
+
+        // AI 응답을 클라이언트에 전달
+        res.json({ aiResponse: aiResponse.data });
+    } catch (error) {
+        console.error('Error sending data to AI:', error);
+        res.status(500).json({ error: 'Failed to communicate with AI server' });
+    }
+});
 
 // 서버 실행
 app.listen(PORT, () => {
