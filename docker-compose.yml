@@ -5,9 +5,17 @@ services:
     image: mysql:8.0  
     container_name: panggyo-mysql
     restart: always
+
+    # ▼ MySQL 서버가 utf8mb4로 동작하도록 하는 핵심 설정
+    command: [
+      "--character-set-server=utf8mb4",
+      "--collation-server=utf8mb4_unicode_ci",
+      "--skip-character-set-client-handshake"
+    ]
+      
     volumes:
-      -  ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - mysql_data:/var/lib/mysql  
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql_data:/var/lib/mysql
     ports:
       - "3308:3306"
     environment:
