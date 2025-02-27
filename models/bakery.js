@@ -1,20 +1,20 @@
-// models/Bakery.js
 module.exports = (sequelize, DataTypes) => {
   const Bakery = sequelize.define('Bakery', {
     bakery_id: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true,
-      autoIncrement: true
     },
-    name: { type: DataTypes.STRING, allowNull: false },
-    address: { type: DataTypes.STRING, allowNull: false },
-    phone: { type: DataTypes.STRING },
-    rating: { type: DataTypes.DECIMAL(3,2), defaultValue: 0 },
-    keywords: { type: DataTypes.JSON }
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    address: DataTypes.STRING,
+    description: DataTypes.TEXT,
+    rating: DataTypes.FLOAT,
   }, {
-    tableName: 'Bakery',
-    freezeTableName: true,
-    timestamps: false
+    tableName: 'Bakery',  // Sequelize가 자동으로 복수형으로 만들지 않도록 지정
+    timestamps: true,  // createdAt, updatedAt 자동 추가
   });
 
   return Bakery;
