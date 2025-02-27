@@ -1,0 +1,13 @@
+FROM mysql:5.7
+
+# Add custom my.cnf file
+COPY ./my.cnf /etc/mysql/conf.d/my.cnf
+
+# Set the permissions for my.cnf
+RUN chmod 644 /etc/mysql/conf.d/my.cnf
+
+# Add the initialization script
+COPY ./database/init.sql /docker-entrypoint-initdb.d/
+
+# Ensure the container runs as expected
+CMD ["mysqld"]
