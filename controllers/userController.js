@@ -49,6 +49,7 @@ exports.getUserProfile = async (req, res) => {
     res.status(500).json({ message: '사용자 프로필 조회 중 오류 발생' });
   }
 };
+/////////
 
 exports.getFavorites = async (req, res) => {
   try {

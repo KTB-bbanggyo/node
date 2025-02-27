@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS Bakery (
 
 
 -- 찜한 빵집 (마이페이지 - 찜.빵)
-CREATE TABLE IF NOT EXISTS FavoriteBackery (
+CREATE TABLE IF NOT EXISTS FavoriteBakery (
     user_id       BIGINT, 
     bakery_id     BIGINT, 
     PRIMARY KEY (user_id, bakery_id),
@@ -64,7 +64,7 @@ INSERT INTO Bakery (bakery_id, name, address, phone, rating, keywords) VALUES
 (5, '옛날 찹쌀 도넛', '광주 북구 용봉동 25-3', '02-2345-6789', 4.5, '["찹쌀 도넛", "전통 베이커리", "할머니 손맛"]');
 
 -- 3. 사용자가 찜한 빵집 데이터 삽입
-INSERT INTO FavoriteBackery (user_id, bakery_id) VALUES
+INSERT INTO FavoriteBakery (user_id, bakery_id) VALUES
 (1, 1),  -- 김철수가 '맛있는 빵집' 찜
 (1, 2),  -- 김철수가 '고소한 베이커리' 찜
 (2, 3),  -- 이영희가 '바삭한 크루아상' 찜

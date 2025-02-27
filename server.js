@@ -28,7 +28,7 @@ app.use(cors());
 app.use(session({
   secret: process.env.SESSION_SECRET || 'secretKey',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
 }));
 app.use(passport.initialize());
 app.use(passport.session());

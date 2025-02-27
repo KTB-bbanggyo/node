@@ -4,6 +4,8 @@ const userController = require('../controllers/userController');
 
 // 카카오 로그인
 router.post('/auth/kakao', userController.kakaoLogin);
+////////
+
 
 // 사용자 프로필 조회
 router.get('/:userId/profile', userController.getUserProfile);
